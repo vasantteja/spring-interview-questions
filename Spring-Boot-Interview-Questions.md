@@ -12,7 +12,7 @@ Sometimes we want to configure the DataSource instead of Spring boot doing it fo
 Instead of Spring Boot we can programatically configure DataSource. We need to implement our DataSource implementation in @Configuration class by
 creating a bean using @Bean annotation.
 
-`
+```
 @Bean
 public DataSource getDataSource(){
 	DataSourceBuilder dataSourceBuilder = DataSourceBuilder.create();
@@ -23,4 +23,4 @@ public DataSource getDataSource(){
 	return dataSourceBuilder.build();
 }
 }
-`
+```
