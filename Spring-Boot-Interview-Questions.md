@@ -84,6 +84,10 @@ https://springframework.guru/how-to-configure-multiple-data-sources-in-a-spring-
 
 https://www.baeldung.com/spring-data-jpa-multiple-databases
 
+### How do you configure multiple properties files in Spring Boot?
+
+@PropertySource 
+
 
  
  
