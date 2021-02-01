@@ -79,7 +79,9 @@ In Summary here are the steps: -
 5. Spring Data JPA Repository custom settings  
 
 References:
+
 https://springframework.guru/how-to-configure-multiple-data-sources-in-a-spring-boot-application/
+
 https://www.baeldung.com/spring-data-jpa-multiple-databases
 
 
