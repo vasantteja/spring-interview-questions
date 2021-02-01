@@ -30,7 +30,7 @@ public DataSource getDataSource(){
 We can create a configuration using Spring Data JPA. Let's analyze this prgramatically.
 
 1. We will create the required entities for all the objects that reside in the respective database.
-2. We wilolm configure the repositories which write to the database.
+2. We will configure the repositories for entities which we write to the database.
 3. We will write the configuration using JPA. We will have separate configurations for different entities which reside in different databases/datasources.
 ==> In each of these configuration class we will define following interfaces: -
 1. DataSource 2. EntityManagerFactory 3. TransactionManager 
