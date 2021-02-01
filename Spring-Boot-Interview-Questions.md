@@ -24,3 +24,64 @@ public DataSource getDataSource(){
 }
 }
 ```
+8002330268
+### How can you configure a DataSource programatically in Spring Boot?
+
+We can create a configuration using Spring Data JPA. Let's analyze this prgramatically.
+
+1. We will create the required entities for all the objects that reside in the respective database.
+2. We wilolm configure the repositories which write to the database.
+3. We will write the configuration using JPA. We will have separate configurations for different entities which reside in different databases/datasources.
+==> In each of these configuration class we will define following interfaces: -
+1. DataSource 2. EntityManagerFactory 3. TransactionManager 
+4. In the configuration class we need to mention which TransactionManager you want to be primary using @Primary annotation.
+5. The annotations used are: -
+@Configuration
+@PropertySource({"classpath:persistence-multiple-db-boot.properties"})
+@EnableJpaRepositories(
+  basePackages = "com.baeldung.multipledb.dao.user",
+  entityManagerFactoryRef = "userEntityManager",
+  transactionManagerRef = "userTransactionManager")
+ 6. The interesting part is annotating the data source bean creation method with @ConfigurationProperties. We just need to specify the corresponding config prefix. 
+ Inside this method, we're using a DataSourceBuilder, and Spring Boot will automatically take care of the rest. 
+ ####How do the configured properties get injected into the DataSource configuration?
+ When calling the build() method on the DataSourceBuilder, it'll call its private bind() method:
+ 
+ ```
+ public T build() {
+    Class<? extends DataSource> type = getType();
+    DataSource result = BeanUtils.instantiateClass(type);
+    maybeGetDriverClassName();
+    bind(result);
+    return (T) result;
+}
+```
+
+This private method performs much of the autoconfiguration magic, binding the resolved configuration to the actual DataSource instance:
+
+```
+private void bind(DataSource result) {
+    ConfigurationPropertySource source = new MapConfigurationPropertySource(this.properties);
+    ConfigurationPropertyNameAliases aliases = new ConfigurationPropertyNameAliases();
+    aliases.addAliases("url", "jdbc-url");
+    aliases.addAliases("username", "user");
+    Binder binder = new Binder(source.withAliases(aliases));
+    binder.bind(ConfigurationPropertyName.EMPTY, Bindable.ofInstance(result));
+}
+```
+
+In Summary here are the steps: -
+
+1. Data source bean definition
+2. Entities
+3. Entity Manager Factory bean definition
+4. Transaction Management
+5. Spring Data JPA Repository custom settings  
+
+References:
+https://springframework.guru/how-to-configure-multiple-data-sources-in-a-spring-boot-application/
+https://www.baeldung.com/spring-data-jpa-multiple-databases
+
+
+ 
+ 
